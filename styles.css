@@ -1,19 +1,11 @@
 body {
-    text-align: center;
+    margin: 0;
 }
 
 h1 {
-    font-family: Monoton;
+    font-family: 'VT323', monospace;
     font-size: 70px;
     margin: 0.2em;
-}
-
-h2 {
-    margin: 1em 0 0.25em;
-}
-
-h2:first-of-type {
-    margin-top: 0.5em;
 }
 
 table,
@@ -35,6 +27,177 @@ td {
     width: 20px;
 }
 
-input[type=number] {
-    width: 6em;
+.formRaw {
+    width: 100%;
+
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-content: space-between;
+    -ms-flex-line-pack: justify;
+    align-content: space-between;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.formRaw > p {
+    width: 50%;
+    font-size: 20px;
+    font-family: 'VT323', monospace;
+    color: #fff;
+    margin: 10px 0;
+}
+
+input {
+    border: solid 2px #fff;
+    background: #111;
+    color: #fff;
+}
+
+.formRaw > input {
+    text-align: center;
+    font-size: 20px;
+    width: 30%;
+    font-family: 'VT323', monospace;
+}
+
+.formRaw > input[type=submit] {
+    width: auto;
+    margin: 10px 0;
+}
+
+/*input[type=color] {*/
+    /*width: 20px;*/
+    /*height: 20px;*/
+/*}*/
+
+
+
+#app {
+    width: 100vw;
+    height: 100vh;
+
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+#header {
+    width: 100vw;
+    height: 100px;
+    text-align: center;
+}
+
+#content {
+    width: 100vw;
+    height: calc(100vh - 100px);
+
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+#options {
+    width: 250px;
+    height: 100%;
+    background: #111;
+    padding: 0 20px;
+    box-sizing: border-box;
+    border-right: solid 2px #fff;
+
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+#editor {
+    height: 100%;
+    width: calc(100vw - 250px);
+    background: #111;
+
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+
+}
+
+.sectionTitle {
+    font-family: 'VT323', monospace;
+    font-size: 30px;
+    margin: 15px 0;
+    color: #fff;
+}
+
+#board {
+    background: white;
 }
