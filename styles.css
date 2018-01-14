@@ -198,6 +198,25 @@ input {
     color: #fff;
 }
 
-#board {
+#canvasWrap {
+    width: 400px;
+    height: 400px;
+}
+
+#activeCanvas {
+    position: absolute;
     background: white;
+    /*width: 400px;*/
+    /*height: 400px;*/
+}
+
+#passiveCanvas {
+    position: absolute;
+    /*background: white;*/
+    /*width: 400px;*/
+    /*height: 400px;*/
+}
+
+#canvasWrap {
+    border: solid 2px #fff;
 }
