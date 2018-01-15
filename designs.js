@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-    var root = new Root();
+    let root = new Root();
     root.resizeCanvas();
 
     $( window ).resize(function() {
@@ -13,11 +13,23 @@ $( document ).ready(function() {
         root.setPixDimension(verticalPix, horizontalPix);
     });
 
+    $( "#colorPicker" ).change((e) => {
+        root.setColor(e.target.value);
+    });
+
+    $( "#passiveCanvas" ).click((e) => {
+        root.drawPix(e.offsetX, e.offsetY);
+    });
+
+    $( "#getIt" ).click(function() {
+        root.downloadImage();
+    });
 });
 
 // ROOT CLASS
 
 class Root {
+
     constructor() {
         this.activeCanvas = $( "#activeCanvas" )[0];
         this.passiveCanvas = $( "#passiveCanvas" )[0];
@@ -25,11 +37,16 @@ class Root {
         this.passiveCtx = this.passiveCanvas.getContext('2d');
         this.verticalPix = 12;
         this.horizontalPix = 12;
+        this.activeColor = "#000000";
+
+        this.buildEmptyPixGrid();
     }
 
     setPixDimension(newVerticalPix, newHorizontalPix) {
-        this.verticalPix = newVerticalPix;
-        this.horizontalPix = newHorizontalPix;
+        this.verticalPix = parseInt(newVerticalPix);
+        this.horizontalPix = parseInt(newHorizontalPix);
+
+        this.buildEmptyPixGrid();
         this.resizeCanvas();
     }
 
@@ -41,6 +58,10 @@ class Root {
 
         this.passiveCanvas.width = this.horizontalPix * this.div;
         this.passiveCanvas.height = this.verticalPix * this.div;
+    }
+
+    setColor(colorHash) {
+        this.activeColor = colorHash;
     }
 
     resizeCanvas() {
@@ -57,12 +78,23 @@ class Root {
         }
 
         this.setStage();
+
         this.drawGrid(this.passiveCtx);
+        this.drawPixGrid();
     }
 
     clearStage() {
         this.activeCtx.clearRect(0,0, this.horizontalPix * this.div, this.verticalPix * this.div);
         this.passiveCtx.clearRect(0,0, this.horizontalPix * this.div, this.verticalPix * this.div);
+    }
+
+    buildEmptyPixGrid() {
+
+        this.pixGrid = [];
+
+        for(let i = 0; i < this.horizontalPix; i++) {
+            this.pixGrid.push(new Array(this.verticalPix).fill(null));
+        }
     }
 
     drawLine(ctx, x1, y1, x2, y2) {
@@ -74,27 +106,51 @@ class Root {
         ctx.restore();
     }
 
+    drawRect(ctx, x, y, color) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.fillStyle=color;
+        ctx.fillRect(x * this.div, y * this.div, this.div, this.div);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    drawPix(mouseX, mouseY) {
+        let divHorizontal = Math.floor(mouseX/this.div);
+        let divVertical = Math.floor(mouseY/this.div);
+        this.drawRect(this.activeCtx, divHorizontal, divVertical, this.activeColor);
+        this.pixGrid[divHorizontal][divVertical] = this.activeColor;
+    }
+
+    drawPixGrid() {
+        for(let i = 0; i < this.horizontalPix; i++) {
+            for(let j = 0; j < this.verticalPix; j++) {
+                if(this.pixGrid[i][j] !== null) {
+                    this.drawRect(this.activeCtx, i, j, this.pixGrid[i][j]);
+                }
+            }
+        }
+    }
+
     drawGrid(ctx) {
 
-        for(var i = 0; i <= this.horizontalPix*this.div; i++) {
+        for(let i = 0; i <= this.horizontalPix*this.div; i++) {
             this.drawLine(this.passiveCtx, i*this.div, 0, i*this.div, this.verticalPix*this.div);
         }
 
-        for(var i = 0; i <= this.verticalPix*this.div; i++) {
+        for(let i = 0; i <= this.verticalPix*this.div; i++) {
             this.drawLine(this.passiveCtx, 0, i*this.div, this.horizontalPix*this.div, i*this.div);
         }
     }
-}
 
+    fillWithColor() {
 
+    }
 
-// Select color input
-// Select size input
-
-// When size is submitted by the user, call makeGrid()
-
-function makeGrid() {
-
-// Your code goes here!
-
+    downloadImage() {
+        let link = document.createElement('a');
+        link.download = "YourPixelArt.png";
+        link.href = this.activeCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");;
+        link.click();
+    }
 }
