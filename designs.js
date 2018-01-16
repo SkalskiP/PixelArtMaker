@@ -1,19 +1,25 @@
-$( document ).ready(function() {
+$( document ).ready(() => {
     // Creating object that will handle all drawing operations
     let root = new Root();
     root.resizeCanvas();
 
     // Event listener for window resizing
-    $( window ).resize(function() {
+    $( window ).resize(() => {
         root.resizeCanvas();
     });
 
     // Event listener for board size change
-    $( "#sizePickerSubmit" ).click(function(e) {
+    $( "#sizePickerSubmit" ).click((e) => {
+
         e.preventDefault();
         let verticalPix = $("#verticalPix").val();
         let horizontalPix = $("#horizontalPix").val();
-        root.setPixDimension(verticalPix, horizontalPix);
+
+        if(verticalPix > 100 || horizontalPix > 100) {
+            alert("Grid dimensions can not be higher than 100.");
+        } else {
+            root.setPixDimension(verticalPix, horizontalPix);
+        }
     });
 
     // Event listener for changing color
@@ -27,12 +33,12 @@ $( document ).ready(function() {
     });
 
     // Event listener for downloading Pixel Art as Image
-    $( "#getIt" ).click(function() {
+    $( "#getIt" ).click(() => {
         root.downloadImage();
     });
 
     // Event listener for filling board with selected color
-    $( "#colorFill" ).click(function() {
+    $( "#colorFill" ).click(() => {
         root.fillWithColor();
     });
 });
