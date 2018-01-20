@@ -194,11 +194,19 @@ button {
 #activeCanvas {
     position: absolute;
     background: transparent;
+    cursor: crosshair;
 }
 
 #passiveCanvas {
     position: absolute;
     color: transparent;
+    cursor: crosshair;
+}
+
+#previewCanvas {
+    position: absolute;
+    color: transparent;
+    cursor: crosshair;
 }
 
 #canvasWrap {

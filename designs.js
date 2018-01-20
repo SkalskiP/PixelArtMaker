@@ -32,6 +32,11 @@ $( document ).ready(() => {
         root.drawPix(e.offsetX, e.offsetY);
     });
 
+    // Event listener for preview coloring rectangle on board
+    $( "#passiveCanvas" ).mousemove((e) => {
+        root.drawPreviewPix(e.offsetX, e.offsetY);
+    });
+
     // Event listener for downloading Pixel Art as Image
     $( "#getIt" ).click(() => {
         root.downloadImage();
@@ -50,11 +55,14 @@ class Root {
     constructor() {
         this.activeCanvas = $( "#activeCanvas" )[0];
         this.passiveCanvas = $( "#passiveCanvas" )[0];
+        this.previewCanvas = $( "#previewCanvas" )[0];
         this.activeCtx = this.activeCanvas.getContext('2d');
         this.passiveCtx = this.passiveCanvas.getContext('2d');
+        this.previewCtx = this.previewCanvas.getContext('2d');
         this.verticalPix = 12;
         this.horizontalPix = 12;
-        this.activeColor = "#000000";
+        this.activeColor = "#000";
+        this.previewColor = "#ddd";
 
         this.buildEmptyPixGrid();
     }
@@ -100,11 +108,13 @@ class Root {
     setStage() {
         $( "#canvasWrap" ).css({"width":this.horizontalPix * this.div, "height":this.verticalPix * this.div});
 
-        this.activeCanvas.width = this.horizontalPix * this.div;
         this.activeCanvas.height = this.verticalPix * this.div;
-
-        this.passiveCanvas.width = this.horizontalPix * this.div;
+        this.previewCanvas.height =  this.verticalPix * this.div;
         this.passiveCanvas.height = this.verticalPix * this.div;
+
+        this.activeCanvas.width = this.horizontalPix * this.div;
+        this.previewCanvas.width = this.horizontalPix * this.div;
+        this.passiveCanvas.width = this.horizontalPix * this.div;
     }
 
     /**
@@ -114,11 +124,11 @@ class Root {
     drawGrid(ctx) {
 
         for(let i = 0; i <= this.horizontalPix*this.div; i++) {
-            this.drawLine(this.passiveCtx, i*this.div, 0, i*this.div, this.verticalPix*this.div);
+            this.drawLine(ctx, i*this.div, 0, i*this.div, this.verticalPix*this.div);
         }
 
         for(let i = 0; i <= this.verticalPix*this.div; i++) {
-            this.drawLine(this.passiveCtx, 0, i*this.div, this.horizontalPix*this.div, i*this.div);
+            this.drawLine(ctx, 0, i*this.div, this.horizontalPix*this.div, i*this.div);
         }
     }
 
@@ -187,6 +197,13 @@ class Root {
         this.pixGrid[divHorizontal][divVertical] = this.activeColor;
     }
 
+    drawPreviewPix(mouseX, mouseY) {
+        this.previewCtx.clearRect(0,0, this.horizontalPix * this.div, this.verticalPix * this.div);
+        let divHorizontal = Math.floor(mouseX/this.div);
+        let divVertical = Math.floor(mouseY/this.div);
+        this.drawRect(this.previewCtx, divHorizontal, divVertical, this.previewColor);
+    }
+
     /**
      * Method that is responsible for redrawing whole image on canvas, for example after resizing browser window.
      */
@@ -226,7 +243,7 @@ class Root {
     downloadImage() {
         let link = document.createElement('a');
         link.download = "YourPixelArt.png";
-        link.href = this.activeCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");;
+        link.href = this.activeCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
         link.click();
     }
 }
