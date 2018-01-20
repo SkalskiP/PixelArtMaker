@@ -15,40 +15,52 @@
         <div id="content">
 
             <div id="options">
-                <h2 class="sectionTitle">Choose Grid Size</h2>
-                <form id="sizePicker">
 
-                    <div class="formRaw">
-                        <p>Grid Height:</p>
-                        <input type="number" id="verticalPix" name="height" min="1" value="12"/>
-                    </div>
+                <div id="title1" class="sectionTitle">
+                    <h2>Choose Grid Size</h2>
+                </div>
+                <div id="content1" class="sectionContent" hidden>
+                    <form id="sizePicker">
 
-                    <div class="formRaw">
-                        <p>Grid Width:</p>
-                        <input type="number" id="horizontalPix" name="width" min="1" value="12"/>
-                    </div>
+                        <div class="formRaw">
+                            <p>Grid Height:</p>
+                            <input type="number" id="verticalPix" name="height" min="1" value="12"/>
+                        </div>
 
-                    <div class="formRaw">
-                        <input id="sizePickerSubmit" type="submit" value="Submit">
-                    </div>
-                </form>
+                        <div class="formRaw">
+                            <p>Grid Width:</p>
+                            <input type="number" id="horizontalPix" name="width" min="1" value="12"/>
+                        </div>
 
-                <h2 class="sectionTitle">Pick A Color</h2>
-                <div class="formRaw">
-                    <p>Active color:</p>
-                    <input type="color" id="colorPicker"/>
+                        <div class="formRaw">
+                            <input id="sizePickerSubmit" type="submit" value="Submit">
+                        </div>
+                    </form>
                 </div>
 
-                <div class="formRaw">
-                    <p>Fill image with color:</p>
-                    <button type="button" id="colorFill">Do it!</button>
+                <div id="title2" class="sectionTitle">
+                    <h2>Pick A Color</h2>
+                </div>
+                <div id="content2" class="sectionContent" hidden>
+                    <div class="formRaw">
+                        <p>Active color:</p>
+                        <input type="color" id="colorPicker"/>
+                    </div>
+                    <div class="formRaw">
+                        <p>Fill image:</p>
+                        <button type="button" id="colorFill">Do it!</button>
+                    </div>
                 </div>
 
-
-
-                <h2 class="sectionTitle">Download Pix Art</h2>
-                <button type="button" id="getIt">Get it!</button>
-
+                <div id="title3" class="sectionTitle">
+                    <h2>Download Pix Art</h2>
+                </div>
+                <div id="content3" class="sectionContent" hidden>
+                    <div class="formRaw">
+                        <p>Download image:</p>
+                        <button type="button" id="getIt">Get it!</button>
+                    </div>
+                </div>
             </div>
             <div id="editor">
                 <div id="canvasWrap">

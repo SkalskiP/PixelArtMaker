@@ -32,7 +32,7 @@ h1 {
 }
 
 .formRaw > p {
-    width: 50%;
+    width: 60%;
     font-size: 20px;
     font-family: 'VT323', monospace;
     color: #fff;
@@ -65,6 +65,7 @@ button {
     text-align: center;
     font-size: 20px;
     font-family: 'VT323', monospace;
+    margin: 10px 0;
 }
 
 .formRaw > button {
@@ -129,7 +130,6 @@ button {
     width: 250px;
     height: 100%;
     background: #111;
-    padding: 0 20px;
     box-sizing: border-box;
     border-right: solid 2px #fff;
 
@@ -151,6 +151,14 @@ button {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
 }
 
 #editor {
@@ -176,14 +184,32 @@ button {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-
 }
 
 .sectionTitle {
+    width: 100%;
+}
+
+.sectionTitle > h2 {
     font-family: 'VT323', monospace;
     font-size: 30px;
     margin: 15px 0;
+    text-align: center;
     color: #fff;
+}
+
+.sectionTitle:hover {
+    background-color: #fff;
+}
+
+.sectionTitle:hover > h2 {
+    color: #000;
+}
+
+.sectionContent {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 #canvasWrap {

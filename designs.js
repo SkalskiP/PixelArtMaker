@@ -46,6 +46,16 @@ $( document ).ready(() => {
     $( "#colorFill" ).click(() => {
         root.fillWithColor();
     });
+
+    $( "#title1" ).click(() => {
+        $( "#content1" ).slideToggle('slide');
+    });
+    $( "#title2" ).click(() => {
+        $( "#content2" ).slideToggle('slide');
+    });
+    $( "#title3" ).click(() => {
+        $( "#content3" ).slideToggle('slide');
+    });
 });
 
 // ROOT CLASS
