@@ -1,6 +1,10 @@
 $( document ).ready(() => {
     // Creating object that will handle all drawing operations
     let root = new Root();
+    let drawActive = false;
+    let withBackground = false;
+    let withGrid = false;
+
     root.resizeCanvas();
 
     // Event listener for window resizing
@@ -9,7 +13,7 @@ $( document ).ready(() => {
     });
 
     // Event listener for board size change
-    $( "#sizePickerSubmit" ).click((e) => {
+    sizePickerSubmit.click((e) => {
 
         e.preventDefault();
         let verticalPix = $("#verticalPix").val();
@@ -27,19 +31,29 @@ $( document ).ready(() => {
         root.setColor(e.target.value);
     });
 
-    // Event listener for coloring rectangle on board
-    $( "#passiveCanvas" ).click((e) => {
+    // Event listener for switching value of drawActive flag to true
+    $( "#passiveCanvas" ).mousedown((e) => {
+        drawActive = true;
         root.drawPix(e.offsetX, e.offsetY);
+    });
+
+    // Event listener for switching value of drawActive flag to false
+    $( document ).mouseup((e) => {
+        drawActive = false;
     });
 
     // Event listener for preview coloring rectangle on board
     $( "#passiveCanvas" ).mousemove((e) => {
-        root.drawPreviewPix(e.offsetX, e.offsetY);
+        if (drawActive) {
+            root.drawPix(e.offsetX, e.offsetY);
+        } else {
+            root.drawPreviewPix(e.offsetX, e.offsetY);
+        }
     });
 
     // Event listener for downloading Pixel Art as Image
     $( "#getIt" ).click(() => {
-        root.downloadImage();
+            root.downloadImage(withBackground, withGrid);
     });
 
     // Event listener for filling board with selected color
@@ -47,14 +61,49 @@ $( document ).ready(() => {
         root.fillWithColor();
     });
 
+    // Event for changing label of toggle buttons
+    $( "#checkbox_background" ).change(() => {
+        withBackground = !withBackground;
+        if(withBackground) {
+            $( "#label_background" ).text("With background:");
+        } else {
+            $( "#label_background" ).text("No background:");
+        }
+    });
+
+    $( "#checkbox_grid" ).change(() => {
+        withGrid = !withGrid;
+        if(withGrid) {
+            $( "#label_grid" ).text("With grid:");
+        } else {
+            $( "#label_grid" ).text("No grid:");
+        }
+    });
+
+    // Event listeners for toggle menu
     $( "#title1" ).click(() => {
-        $( "#content1" ).slideToggle('slide');
+        if($( "#content1" ).is(":visible")) {
+            $( ".sectionContent:visible" ).slideToggle('slide');
+        } else {
+            $( ".sectionContent:visible" ).slideToggle('slide');
+            $( "#content1" ).slideToggle('slide');
+        }
     });
     $( "#title2" ).click(() => {
-        $( "#content2" ).slideToggle('slide');
+        if($( "#content2" ).is(":visible")) {
+            $( ".sectionContent:visible" ).slideToggle('slide');
+        } else {
+            $( ".sectionContent:visible" ).slideToggle('slide');
+            $( "#content2" ).slideToggle('slide');
+        }
     });
     $( "#title3" ).click(() => {
-        $( "#content3" ).slideToggle('slide');
+        if($( "#content3" ).is(":visible")) {
+            $( ".sectionContent:visible" ).slideToggle('slide');
+        } else {
+            $( ".sectionContent:visible" ).slideToggle('slide');
+            $( "#content3" ).slideToggle('slide');
+        }
     });
 });
 
@@ -207,6 +256,11 @@ class Root {
         this.pixGrid[divHorizontal][divVertical] = this.activeColor;
     }
 
+    /**
+     * Method that is responsible for drawing preview rectangle on canvas.
+     * @param mouseX x coordinate of mouse on canvas
+     * @param mouseY y coordinate of mouse on canvas
+     */
     drawPreviewPix(mouseX, mouseY) {
         this.previewCtx.clearRect(0,0, this.horizontalPix * this.div, this.verticalPix * this.div);
         let divHorizontal = Math.floor(mouseX/this.div);
@@ -217,11 +271,11 @@ class Root {
     /**
      * Method that is responsible for redrawing whole image on canvas, for example after resizing browser window.
      */
-    drawPixGrid() {
+    drawPixGrid(ctx) {
         for(let i = 0; i < this.horizontalPix; i++) {
             for(let j = 0; j < this.verticalPix; j++) {
                 if(this.pixGrid[i][j] !== null) {
-                    this.drawRect(this.activeCtx, i, j, this.pixGrid[i][j]);
+                    this.drawRect(ctx, i, j, this.pixGrid[i][j]);
                 }
             }
         }
@@ -236,7 +290,7 @@ class Root {
                 this.pixGrid[i][j] = this.activeColor;
             }
         }
-        this.drawPixGrid();
+        this.drawPixGrid(this.activeCtx);
     }
 
     /**
@@ -250,10 +304,30 @@ class Root {
     /**
      * Method that is responsible for downloading image with canvas content.
      */
-    downloadImage() {
+    downloadImage(withBackground, withGrid) {
+        let canvas = document.createElement('canvas');
+        canvas.height = this.verticalPix * this.div;
+        canvas.width = this.horizontalPix * this.div;
+        let canvasCtx = canvas.getContext('2d');
+
+        if(withBackground) {
+            canvasCtx.save();
+            canvasCtx.beginPath();
+            canvasCtx.fillStyle="#fff";
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+            canvasCtx.stroke();
+            canvasCtx.restore();
+        }
+
+        this.drawPixGrid(canvasCtx);
+
+        if(withGrid) {
+            this.drawGrid(canvasCtx);
+        }
+
         let link = document.createElement('a');
         link.download = "YourPixelArt.png";
-        link.href = this.activeCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
         link.click();
     }
 }
